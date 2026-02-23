@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Diario de Aprendizaje: Hoja de Ruta Interactiva</title>    <title>Mi Diario de Aprendizaje: Hoja de Ruta Interactiva</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔓</text></svg>">
+    <title>Mi Diario de Aprendizaje: Hoja de Ruta Interactiva</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤔</text></svg>">
     <script src="libs/tailwind/tailwind.js"></script>
-     <script src="libs/chart/chart.js"></script>
+    <script src="libs/chart/chart.js"></script>
 
-    <script>
+   <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            50: '#eff6ff',
-                            100: '#dbeafe',
-                            200: '#bfdbfe',
-                            300: '#93c5fd',
-                            400: '#60a5fa',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                            800: '#1e40af',
-                            900: '#1e3a8a',
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa',
+                            500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a',
                         }
                     }
                 }
@@ -39,38 +31,96 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         .chart-container { position: relative; width: 100%; max-width: 500px; margin: 0 auto; height: 300px; }
-        .summary-chart-container { position: relative; width: 100%; height: 200px; }
+        .summary-chart-container { position: relative; width: 100%; height: 150px; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Estilos para inputs de rango personalizados */
-        input[type=range] { appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { background: #e2e8f0; height: 6px; border-radius: 3px; }
-        .dark input[type=range]::-webkit-slider-runnable-track { background: #334155; }
-        input[type=range]::-webkit-slider-thumb { appearance: none; height: 18px; width: 18px; background: #3b82f6; border-radius: 50%; margin-top: -6px; cursor: pointer; }
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+        }
+        .dark input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            margin-top: -6px;
+            border: 2px solid white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-moz-range-track {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+        }
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
 
-        /* Formato A4 para impresión */
+        .step-link {
+            transition: opacity 0.2s;
+        }
+        .step-link.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .step-link.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            font-weight: 700;
+        }
+        .dark .step-link.active {
+            color: #60a5fa;
+            border-bottom: 2px solid #60a5fa;
+        }
+
         @media print {
             .no-print { display: none !important; }
-            body { background: white !important; color: black !important; padding: 0; margin: 0; }
+            html, body { background: white !important; color: black !important; padding: 0; margin: 0; }
+            .dark body, .dark main, .dark div, .dark section, .dark p, .dark h1, .dark h2, .dark h4, .dark span, .dark table, .dark td, .dark th, .dark textarea {
+                background-color: white !important;
+                color: black !important;
+                border-color: #e2e8f0 !important;
+                box-shadow: none !important;
+            }
             .a4-page {
                 width: 210mm;
                 min-height: 297mm;
-                padding: 15mm;
+                padding: 10mm;
                 margin: 0 auto;
-                border: none;
-                box-shadow: none;
+                border: none !important;
+                box-shadow: none !important;
                 background: white !important;
-                color: black !important;
+                box-sizing: border-box;
             }
-            .summary-chart-container { height: 180px; }
             canvas { max-width: 100% !important; }
+            .a4-page p, .a4-page li, .a4-page span { font-size: 9pt; }
+            .a4-page h2 { font-size: 14pt; }
+            .a4-page h4 { font-size: 8pt; }
+            .summary-chart-container { height: 140px; }
         }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col">
 
-    <!-- Barra de Navegación -->
     <nav class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm sticky top-0 z-50 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
@@ -78,6 +128,15 @@
                     <span class="text-2xl font-bold text-brand-600 mr-2">✦</span>
                     <h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Diario de Aprendizaje <span class="font-normal text-slate-500">| SdA</span></h1>
                 </div>
+
+                <div id="steps-menu" class="hidden md:flex space-x-6 h-full items-center text-sm font-medium text-slate-500 dark:text-slate-400">
+                    <button onclick="app.navigateTo('step1')" class="step-link h-full flex items-center px-1" id="link-step1">Identifico el reto</button>
+                    <button onclick="app.navigateTo('step2')" class="step-link h-full flex items-center px-1" id="link-step2">Intereses y emociones</button>
+                    <button onclick="app.navigateTo('step3')" class="step-link h-full flex items-center px-1" id="link-step3">Lluvia de ideas</button>
+                    <button onclick="app.navigateTo('step4')" class="step-link h-full flex items-center px-1" id="link-step4">Mi propuesta de valor</button>
+                    <button onclick="app.finish()" class="step-link h-full flex items-center px-1" id="link-summary">Resumen</button>
+                </div>
+
                 <button onclick="app.toggleDarkMode()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                     <span id="dark-mode-icon">🌙</span>
                 </button>
@@ -85,41 +144,43 @@
         </div>
     </nav>
 
-    <!-- Área de Contenido Principal -->
     <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8">
 
-        <!-- Vista 0: Identificación -->
+        <!-- Vista 0: Datos iniciales -->
         <section id="view-intro" class="fade-in space-y-8">
             <div class="text-center space-y-4 max-w-3xl mx-auto">
                 <div class="inline-block px-3 py-1 bg-brand-100 dark:bg-brand-900/30 text-brand-800 dark:text-brand-300 rounded-full text-sm font-medium mb-2">Bienvenida</div>
                 <h2 class="text-4xl font-bold text-slate-900 dark:text-white italic">"Habla en silencio contigo mismo"</h2>
-                <p class="text-lg text-slate-600 dark:text-slate-400">Completa tus datos para personalizar tu hoja de ruta interactiva.</p>
+                <p class="text-lg text-slate-600 dark:text-slate-400">Completa tus datos para habilitar las opciones de tu diario interactivo.</p>
             </div>
 
             <div class="max-w-xl mx-auto bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Nombre Completo</label>
-                        <input type="text" id="student-name" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all" placeholder="Escribe tu nombre y apellidos...">
+                        <input type="text" id="student-name" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500 outline-none" placeholder="Nombre y apellidos...">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Curso</label>
-                            <select id="student-grade" onchange="app.updateSubjects()" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg bg-slate-50 focus:ring-2 focus:ring-brand-500 outline-none">
+                            <select id="student-grade" onchange="app.handleGradeChange()" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500 outline-none">
                                 <option value="">Selecciona curso...</option>
                                 <option value="2ESO">2º ESO</option>
                                 <option value="3ESO">3º ESO</option>
                                 <option value="4ESO">4º ESO</option>
                                 <option value="1BACH">1º Bachillerato</option>
                                 <option value="2BACH">2º Bachillerato</option>
+                                <option value="OTHER">Otro...</option>
                             </select>
+                            <input type="text" id="custom-grade" class="hidden mt-2 w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="Especificar curso...">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Asignatura</label>
-                            <select id="student-subject" disabled class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg bg-slate-50 focus:ring-2 focus:ring-brand-500 outline-none disabled:opacity-50">
+                            <select id="student-subject" onchange="app.handleSubjectChange()" disabled class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500 outline-none disabled:opacity-50">
                                 <option value="">Primero elige curso...</option>
                             </select>
+                            <input type="text" id="custom-subject" class="hidden mt-2 w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="Especificar asignatura...">
                         </div>
                     </div>
                 </div>
@@ -134,70 +195,71 @@
         <section id="view-step1" class="hidden fade-in space-y-6">
             <div class="border-l-4 border-brand-500 pl-4">
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white">1. Identifico el Reto</h2>
-                <p class="text-slate-500 dark:text-slate-400">¿Qué tengo que hacer y qué sé ya sobre esto?</p>
+                <p class="text-slate-500 dark:text-slate-400">Define los objetivos y conocimientos de partida.</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Descripción del Reto</label>
-                        <textarea id="input-challenge" rows="4" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="Ej: Debo diseñar un prototipo que..."></textarea>
+                        <textarea id="input-challenge" rows="4" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="¿Qué tienes que conseguir?"></textarea>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Saberes Previos</label>
-                        <textarea id="input-knowledge" rows="4" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="¿Qué conocimientos previos me ayudan?"></textarea>
+                        <textarea id="input-knowledge" rows="4" class="w-full p-3 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-brand-500" placeholder="¿Qué conocimientos previos tienes?"></textarea>
                     </div>
                 </div>
                 <div class="bg-brand-50 dark:bg-brand-900/20 p-6 rounded-xl border border-brand-100 dark:border-brand-800 flex flex-col justify-center">
-                    <h4 class="font-semibold text-brand-800 dark:text-brand-300 mb-2">💡 Recomendación</h4>
-                    <p class="text-brand-700 dark:text-brand-400 text-sm">Al reescribir el reto con tus palabras, tu cerebro empieza a planificar automáticamente.</p>
+                    <h4 class="font-semibold text-brand-800 dark:text-brand-300 mb-2">💡 Reflexión</h4>
+                    <p class="text-brand-700 dark:text-brand-400 text-sm">Al escribir el reto con tus propias palabras, aseguras que has comprendido la tarea.</p>
                 </div>
             </div>
-            <div class="flex justify-end pt-4"><button onclick="app.navigateTo('step2')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600 transition-colors">Siguiente &rarr;</button></div>
+            <div class="flex justify-end pt-4">
+                <button onclick="app.completeStep('step1', 'step2')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600">Siguiente &rarr;</button>
+            </div>
         </section>
 
-        <!-- Vista 2: Emociones e Intereses -->
+        <!-- Vista 2: Emociones -->
         <section id="view-step2" class="hidden fade-in space-y-6">
             <div class="border-l-4 border-rose-500 pl-4">
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white">2. Intereses y Emociones</h2>
-                <p class="text-slate-500 dark:text-slate-400">¿Cómo me siento ante este desafío y qué temas me atraen?</p>
+                <p class="text-slate-500 dark:text-slate-400">Monitoriza tu disposición emocional.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8">
                 <div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
                     <div>
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 italic text-sm">Mis Intereses</h3>
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 mb-3 text-sm italic">¿Qué te interesa?</h3>
                         <div class="flex flex-wrap gap-2 mb-4" id="interest-chips"></div>
-
                         <div class="flex gap-2">
-                            <input type="text" id="custom-interest-input" class="flex-grow p-2 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500" placeholder="Añadir otro interés...">
-                            <button onclick="app.addCustomInterest()" class="px-4 py-2 bg-brand-600 text-white text-sm font-bold rounded-lg hover:bg-brand-700 transition-colors">Añadir</button>
+                            <input type="text" id="custom-interest-input" class="flex-grow p-2 border border-slate-300 dark:border-slate-700 dark:bg-slate-800 dark:text-white rounded-lg text-sm" placeholder="Añadir nuevo interés...">
+                            <button onclick="app.addCustomInterest()" class="px-4 py-2 bg-brand-600 text-white text-sm font-bold rounded-lg">Añadir</button>
                         </div>
                     </div>
 
                     <div class="space-y-4 pt-4 border-t dark:border-slate-800">
-                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 text-sm">Termómetro Emocional (0-10)</h3>
+                        <h3 class="font-semibold text-slate-800 dark:text-slate-200 text-sm">Estado de ánimo</h3>
                         <div>
-                            <div class="flex justify-between text-xs mb-1"><span>Curiosidad</span><span id="val-curiosity">5</span></div>
+                            <div class="flex justify-between text-xs mb-1"><span>Curiosidad</span><span id="val-curiosity" class="font-bold text-brand-600">5</span></div>
                             <input type="range" id="rng-curiosity" min="0" max="10" value="5" class="w-full" oninput="app.updateChart('emotions')">
                         </div>
                         <div>
-                            <div class="flex justify-between text-xs mb-1"><span>Duda/Inseguridad</span><span id="val-doubt">3</span></div>
+                            <div class="flex justify-between text-xs mb-1"><span>Duda / Inseguridad</span><span id="val-doubt" class="font-bold text-brand-600">3</span></div>
                             <input type="range" id="rng-doubt" min="0" max="10" value="3" class="w-full" oninput="app.updateChart('emotions')">
                         </div>
                         <div>
-                            <div class="flex justify-between text-xs mb-1"><span>Motivación</span><span id="val-motivation">6</span></div>
+                            <div class="flex justify-between text-xs mb-1"><span>Motivación</span><span id="val-motivation" class="font-bold text-brand-600">6</span></div>
                             <input type="range" id="rng-motivation" min="0" max="10" value="6" class="w-full" oninput="app.updateChart('emotions')">
                         </div>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-center">
                     <div class="chart-container"><canvas id="chart-emotions"></canvas></div>
                 </div>
             </div>
             <div class="flex justify-between pt-4">
-                <button onclick="app.navigateTo('step1')" class="text-slate-400 font-medium hover:text-slate-600">Volver</button>
-                <button onclick="app.navigateTo('step3')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600">Siguiente &rarr;</button>
+                <button onclick="app.navigateTo('step1')" class="text-slate-400 font-medium">Volver</button>
+                <button onclick="app.completeStep('step2', 'step3')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600">Siguiente &rarr;</button>
             </div>
         </section>
 
@@ -205,166 +267,143 @@
         <section id="view-step3" class="hidden fade-in space-y-6">
             <div class="border-l-4 border-amber-500 pl-4">
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white">3. Lluvia de Ideas</h2>
-                <p class="text-slate-500 dark:text-slate-400">Evalúa tus 3 mejores propuestas (Innovación vs Realismo).</p>
+                <p class="text-slate-500 dark:text-slate-400">Evalúa tus propuestas según innovación y viabilidad.</p>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-8">
                 <div class="space-y-4">
-                    <div class="bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 space-y-6">
                         <div class="space-y-2">
-                            <input type="text" id="idea1-name" placeholder="Idea 1..." value="Prototipo A" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold text-sm outline-none">
+                            <input type="text" id="idea1-name" placeholder="Idea 1..." value="Opción A" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold outline-none">
                             <div class="flex gap-4 text-xs">
-                                <span>Innovación: <input type="number" id="idea1-y" value="5" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
-                                <span>Realismo: <input type="number" id="idea1-x" value="5" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Innovación (Y): <input type="number" id="idea1-y" value="5" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Realismo (X): <input type="number" id="idea1-x" value="5" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <input type="text" id="idea2-name" placeholder="Idea 2..." value="Prototipo B" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold text-sm outline-none">
+                            <input type="text" id="idea2-name" placeholder="Idea 2..." value="Opción B" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold outline-none">
                             <div class="flex gap-4 text-xs">
-                                <span>Innovación: <input type="number" id="idea2-y" value="7" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
-                                <span>Realismo: <input type="number" id="idea2-x" value="3" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Innovación (Y): <input type="number" id="idea2-y" value="7" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Realismo (X): <input type="number" id="idea2-x" value="3" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
                             </div>
                         </div>
                         <div class="space-y-2">
-                            <input type="text" id="idea3-name" placeholder="Idea 3..." value="Prototipo C" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold text-sm outline-none">
+                            <input type="text" id="idea3-name" placeholder="Idea 3..." value="Opción C" class="w-full p-2 border-b border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white font-bold outline-none">
                             <div class="flex gap-4 text-xs">
-                                <span>Innovación: <input type="number" id="idea3-y" value="4" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
-                                <span>Realismo: <input type="number" id="idea3-x" value="8" min="0" max="10" class="w-10 border border-slate-200 dark:border-slate-700 dark:bg-slate-800 dark:text-white text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Innovación (Y): <input type="number" id="idea3-y" value="4" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
+                                <span>Realismo (X): <input type="number" id="idea3-x" value="8" min="0" max="10" class="w-12 p-1 border rounded dark:bg-slate-700 text-center" onchange="app.updateChart('ideas')"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-center">
                     <div class="chart-container"><canvas id="chart-ideas"></canvas></div>
                 </div>
             </div>
             <div class="flex justify-between pt-4">
                 <button onclick="app.navigateTo('step2')" class="text-slate-400 font-medium">Volver</button>
-                <button onclick="app.navigateTo('step4')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600">Siguiente &rarr;</button>
+                <button onclick="app.completeStep('step3', 'step4')" class="px-6 py-2 bg-slate-800 dark:bg-slate-700 text-white rounded-lg hover:bg-slate-900 dark:hover:bg-slate-600">Siguiente &rarr;</button>
             </div>
         </section>
 
-        <!-- Vista 4: Propuesta de Valor (CORREGIDA) -->
+        <!-- Vista 4: Propuesta de valor -->
         <section id="view-step4" class="hidden fade-in space-y-6">
             <div class="border-l-4 border-brand-500 pl-4">
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white">4. Mi Propuesta de Valor</h2>
-                <p class="text-slate-500 dark:text-slate-400">Define el problema y tu solución definitiva.</p>
+                <p class="text-slate-500 dark:text-slate-400">Argumenta el valor de tu solución elegida.</p>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-rose-50 dark:bg-rose-950/20 p-6 rounded-xl border border-rose-100 dark:border-rose-900/40 transition-colors">
-                    <h3 class="font-bold text-rose-800 dark:text-rose-300 mb-2">🔴 El Problema</h3>
-                    <textarea id="input-problem" class="w-full p-3 h-32 rounded-lg border border-rose-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none" placeholder="¿Qué necesidad has detectado?"></textarea>
+                <div class="bg-rose-50 dark:bg-slate-900 p-6 rounded-xl border border-rose-200 dark:border-slate-700 shadow-sm">
+                    <h3 class="font-bold text-rose-800 dark:text-rose-400 mb-2 flex items-center gap-2">
+                        <span class="p-1 bg-rose-200 dark:bg-rose-900/40 rounded text-sm">🔴</span> El Problema
+                    </h3>
+                    <textarea id="input-problem" class="w-full p-3 h-32 rounded-lg border border-rose-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-rose-500 outline-none" placeholder="¿Qué problema estás resolviendo?"></textarea>
                 </div>
-                <div class="bg-brand-50 dark:bg-brand-950/20 p-6 rounded-xl border border-brand-100 dark:border-brand-900/40 transition-colors">
-                    <h3 class="font-bold text-brand-800 dark:text-brand-300 mb-2">🔵 La Solución</h3>
-                    <textarea id="input-solution" class="w-full p-3 h-32 rounded-lg border border-brand-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none" placeholder="¿Cómo lo vas a resolver?"></textarea>
+                <div class="bg-brand-50 dark:bg-slate-900 p-6 rounded-xl border border-brand-200 dark:border-slate-700 shadow-sm">
+                    <h3 class="font-bold text-brand-800 dark:text-brand-400 mb-2 flex items-center gap-2">
+                        <span class="p-1 bg-brand-200 dark:bg-brand-900/40 rounded text-sm">🔵</span> La Solución
+                    </h3>
+                    <textarea id="input-solution" class="w-full p-3 h-32 rounded-lg border border-brand-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-500 outline-none" placeholder="Explica tu gran idea..."></textarea>
                 </div>
             </div>
             <div class="flex justify-between pt-4">
                 <button onclick="app.navigateTo('step3')" class="text-slate-400 font-medium">Volver</button>
-                <button onclick="app.finish()" class="px-8 py-2 bg-brand-600 text-white rounded-lg font-bold shadow-md hover:bg-brand-700 transition-transform active:scale-95">Finalizar Diario &rarr;</button>
+                <!-- CORREGIDO: llama a app.finish() en lugar de completeStep -->
+                <button onclick="app.finish()" class="px-8 py-2 bg-brand-600 text-white rounded-lg font-bold shadow-md hover:bg-brand-700 active:scale-95 transition-all">Generar Resumen &rarr;</button>
             </div>
         </section>
 
-        <!-- Vista 5: Resumen Final (A4 compatible) -->
+        <!-- Vista 5: Resumen Final -->
         <section id="view-summary" class="hidden fade-in space-y-6 pb-12">
-            <div class="a4-page mx-auto bg-white dark:bg-slate-900 shadow-2xl p-8 md:p-12 border-t-8 border-brand-600 print-shadow overflow-hidden transition-colors">
-                <!-- Encabezado -->
-                <div class="flex flex-col md:flex-row justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-4 mb-6 gap-4">
+            <div class="a4-page mx-auto bg-white dark:bg-slate-900 shadow-xl p-8 border-t-8 border-brand-600 transition-colors">
+                <div class="flex justify-between items-start border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
                     <div>
-                        <h2 class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Diario de Aprendizaje: Resumen Final</h2>
-                        <div class="mt-2">
-                            <p class="text-lg font-bold text-brand-700 dark:text-brand-400 leading-tight" id="sum-name"></p>
-                            <p class="text-sm text-slate-500 font-medium uppercase tracking-wide" id="sum-meta"></p>
-                        </div>
+                        <h2 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Diario de Aprendizaje</h2>
+                        <p class="text-base font-bold text-brand-700 dark:text-brand-400" id="sum-name"></p>
+                        <p class="text-xs text-slate-500 font-medium uppercase" id="sum-meta"></p>
                     </div>
-                    <div class="text-right border-l pl-4 border-slate-100 dark:border-slate-800">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Fecha de registro</span>
-                        <p class="text-xs font-mono text-slate-600 dark:text-slate-400" id="sum-date"></p>
+                    <div class="text-right">
+                        <p class="text-[9px] font-bold text-slate-400 uppercase">Fecha</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400" id="sum-date"></p>
                     </div>
                 </div>
 
-                <!-- Secciones de Texto -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                    <div class="space-y-4">
-                        <div>
-                            <h4 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Definición del Reto</h4>
-                            <p class="text-slate-800 dark:text-slate-200 text-[11px] leading-relaxed bg-slate-50 dark:bg-slate-800/50 p-2 rounded" id="sum-challenge"></p>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="space-y-3">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded">
+                            <h4 class="text-[9px] font-bold text-slate-400 uppercase mb-1 tracking-widest">Reto Identificado</h4>
+                            <p class="text-[10px] text-slate-800 dark:text-slate-200" id="sum-challenge"></p>
                         </div>
-                        <div class="border-l-2 border-brand-500 pl-3">
-                            <h4 class="text-[10px] font-bold text-brand-600 dark:text-brand-400 uppercase mb-1">Propuesta de Valor</h4>
-                            <div class="space-y-2 text-[10px]">
-                                <div><span class="font-bold text-slate-500 italic block">Problema:</span> <span id="sum-problem" class="text-slate-800 dark:text-slate-300"></span></div>
-                                <div><span class="font-bold text-slate-500 italic block">Solución:</span> <span id="sum-solution" class="text-slate-800 dark:text-slate-300"></span></div>
-                            </div>
+                        <div class="border-l-4 border-brand-600 pl-2">
+                            <h4 class="text-[9px] font-bold text-brand-700 dark:text-brand-300 uppercase mb-1">Estrategia Ganadora</h4>
+                            <p class="text-[9px] italic"><span class="font-bold">Problema:</span> <span id="sum-problem"></span></p>
+                            <p class="text-[9px] mt-1 italic"><span class="font-bold">Solución:</span> <span id="sum-solution"></span></p>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                         <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg border border-slate-100 dark:border-slate-800 h-full">
-                             <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-2 tracking-widest">Saberes Previos</h4>
-                             <p class="text-slate-800 dark:text-slate-200 text-[11px] italic" id="sum-knowledge"></p>
-                         </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-2 rounded">
+                        <h4 class="text-[9px] font-bold text-slate-400 uppercase mb-1 tracking-widest">Saberes Previos</h4>
+                        <p class="text-[10px] text-slate-800 dark:text-slate-200 italic" id="sum-knowledge"></p>
                     </div>
                 </div>
 
-                <!-- Sección Intereses en Resumen -->
-                <div class="mb-6 p-3 bg-brand-50 dark:bg-brand-900/20 rounded-lg border border-brand-100 dark:border-brand-800">
-                    <h4 class="text-[10px] font-bold text-brand-700 dark:text-brand-300 uppercase mb-2 tracking-widest">Intereses Detectados</h4>
-                    <div id="sum-interests-list" class="flex flex-wrap gap-2 text-[10px]">
+                <div class="mb-3">
+                    <h4 class="text-[9px] font-bold text-slate-400 uppercase mb-1">Intereses Detectados</h4>
+                    <div id="sum-interests-list" class="flex flex-wrap gap-1"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <h4 class="text-[9px] font-bold text-rose-600 uppercase">Estado Emocional</h4>
+                        <ul class="text-[9px] mt-1 space-y-0.5">
+                            <li>Curiosidad: <span id="sum-curiosity-val"></span>/10</li>
+                            <li>Duda: <span id="sum-doubt-val"></span>/10</li>
+                            <li>Motivación: <span id="sum-motivation-val"></span>/10</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-[9px] font-bold text-amber-600 uppercase">Ideas (Viabilidad X, Originalidad Y)</h4>
+                        <ul class="text-[9px] mt-1 space-y-0.5" id="sum-ideas-list"></ul>
                     </div>
                 </div>
 
-                <!-- Gráficos y Tablas -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-slate-100 dark:border-slate-800 pt-4">
-                    <div class="space-y-4">
-                        <h4 class="text-[10px] font-bold text-rose-500 uppercase text-center border-b border-slate-100 dark:border-slate-800 pb-1">Análisis Emocional</h4>
+                <div class="grid grid-cols-2 gap-4 border-t pt-3 border-slate-100 dark:border-slate-800">
+                    <div>
+                        <h4 class="text-[9px] font-bold text-rose-600 uppercase text-center mb-1">Perfil Emocional</h4>
                         <div class="summary-chart-container"><canvas id="sum-chart-emotions"></canvas></div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-[10px] text-left border-collapse">
-                                <thead class="bg-slate-50 dark:bg-slate-800">
-                                    <tr>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Curiosidad</th>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Duda</th>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Motivación</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="p-1 border border-slate-200 dark:border-slate-700 font-bold text-center text-slate-800 dark:text-slate-200" id="val-sum-curiosity">-</td>
-                                        <td class="p-1 border border-slate-200 dark:border-slate-700 font-bold text-center text-slate-800 dark:text-slate-200" id="val-sum-doubt">-</td>
-                                        <td class="p-1 border border-slate-200 dark:border-slate-700 font-bold text-center text-slate-800 dark:text-slate-200" id="val-sum-motivation">-</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-
-                    <div class="space-y-4">
-                        <h4 class="text-[10px] font-bold text-amber-500 uppercase text-center border-b border-slate-100 dark:border-slate-800 pb-1">Matriz de Ideas</h4>
+                    <div>
+                        <h4 class="text-[9px] font-bold text-amber-600 uppercase text-center mb-1">Posicionamiento de Ideas</h4>
                         <div class="summary-chart-container"><canvas id="sum-chart-ideas"></canvas></div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-[10px] text-left border-collapse">
-                                <thead class="bg-slate-50 dark:bg-slate-800">
-                                    <tr>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Idea</th>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Realismo (X)</th>
-                                        <th class="p-1 border border-slate-200 dark:border-slate-700 text-slate-500">Innovación (Y)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table-sum-ideas" class="text-slate-800 dark:text-slate-200">
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="flex justify-center gap-4 py-8 no-print">
-                <button onclick="window.print()" class="px-6 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 flex items-center gap-2 shadow-lg font-bold transition-transform active:scale-95">
-                    <span>🖨️</span> Descargar / Imprimir (A4)
+                <button onclick="window.print()" class="px-6 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 font-bold shadow-lg flex items-center gap-2">
+                    🖨️ Resumen
                 </button>
-                <button onclick="location.reload()" class="px-6 py-2 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-700 font-medium">
-                    Reiniciar Diario
+                <button onclick="location.reload()" class="px-6 py-2 bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-lg">
+                    Nuevo Diario
                 </button>
             </div>
         </section>
@@ -374,28 +413,30 @@
     <script>
         const state = {
             student: { name: '', grade: '', subject: '' },
-            charts: {},
+            charts: { emotions: null, ideas: null },
             subjects: {
-                '2ESO': ['Tecnología y Digitalización'],
-                '3ESO': ['Tecnología y Digitalización'],
-                '4ESO': ['Digitalización'],
-                '1BACH': ['Creación Digital y Pensamiento Computacional', 'Tecnología de la Información y Comunicación I'],
-                '2BACH': ['Programación y Computación', 'Tecnología de la Información y Comunicación II']
+                '2ESO': ['Tecnología y Digitalización', 'Otras...'],
+                '3ESO': ['Tecnología y Digitalización', 'Otras...'],
+                '4ESO': ['Digitalización', 'Tecnología', 'Otras...'],
+                '1BACH': ['CPD', 'TIC I', 'Dibujo Técnico', 'Otras...'],
+                '2BACH': ['Programación', 'TIC II', 'Diseño', 'Otras...'],
+                'OTHER': ['Otro...']
             },
-            interests: []
+            interests: [],
+            completedSteps: {
+                step1: false,
+                step2: false,
+                step3: false,
+                step4: false
+            }
         };
 
         const app = {
             toggleDarkMode: () => {
                 const html = document.documentElement;
                 const icon = document.getElementById('dark-mode-icon');
-                if (html.classList.contains('dark')) {
-                    html.classList.remove('dark');
-                    icon.innerText = '🌙';
-                } else {
-                    html.classList.add('dark');
-                    icon.innerText = '☀️';
-                }
+                html.classList.toggle('dark');
+                icon.innerText = html.classList.contains('dark') ? '☀️' : '🌙';
                 app.updateChartColors();
             },
 
@@ -420,15 +461,20 @@
                 });
             },
 
-            updateSubjects: () => {
-                const grade = document.getElementById('student-grade').value;
+            handleGradeChange: () => {
+                const gradeSelect = document.getElementById('student-grade');
+                const customGrade = document.getElementById('custom-grade');
                 const subjectSelect = document.getElementById('student-subject');
-                subjectSelect.innerHTML = '<option value="">Selecciona asignatura...</option>';
+                const customSubject = document.getElementById('custom-subject');
 
-                if (grade && state.subjects[grade]) {
-                    state.subjects[grade].forEach(s => {
+                customGrade.classList.toggle('hidden', gradeSelect.value !== 'OTHER');
+
+                subjectSelect.innerHTML = '<option value="">Selecciona asignatura...</option>';
+                const gradeKey = gradeSelect.value;
+                if (gradeKey && state.subjects[gradeKey]) {
+                    state.subjects[gradeKey].forEach(s => {
                         const opt = document.createElement('option');
-                        opt.value = s;
+                        opt.value = (s === 'Otro...' || s === 'Otras...') ? 'OTHER' : s;
                         opt.innerText = s;
                         subjectSelect.appendChild(opt);
                     });
@@ -436,6 +482,13 @@
                 } else {
                     subjectSelect.disabled = true;
                 }
+                customSubject.classList.add('hidden');
+            },
+
+            handleSubjectChange: () => {
+                const subjectSelect = document.getElementById('student-subject');
+                const customSubject = document.getElementById('custom-subject');
+                customSubject.classList.toggle('hidden', subjectSelect.value !== 'OTHER');
             },
 
             addCustomInterest: () => {
@@ -449,50 +502,89 @@
             },
 
             renderInterestChips: () => {
-                const chipContainer = document.getElementById('interest-chips');
-                const baseInterests = ["Tecnología", "IA", "Diseño", "Sostenibilidad", "Programación", "Robótica", "Creatividad"];
-                chipContainer.innerHTML = '';
-                const allPossible = Array.from(new Set([...baseInterests, ...state.interests]));
-
-                allPossible.forEach(i => {
+                const container = document.getElementById('interest-chips');
+                const base = ["Creatividad", "Lógica", "Diseño", "Investigación", "Programación", "Sostenibilidad"];
+                container.innerHTML = '';
+                [...new Set([...base, ...state.interests])].forEach(i => {
+                    const active = state.interests.includes(i);
                     const btn = document.createElement('button');
-                    const isActive = state.interests.includes(i);
-                    btn.className = `px-3 py-1 rounded-full text-[10px] transition-all border uppercase font-semibold ${isActive ? 'bg-brand-600 text-white border-brand-700' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-brand-100 dark:hover:bg-brand-900/40'}`;
                     btn.innerText = i;
+                    btn.className = `px-3 py-1 rounded-full text-[10px] font-bold border transition ${active ? 'bg-brand-600 text-white border-brand-700' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'}`;
                     btn.onclick = () => {
-                        if(state.interests.includes(i)) {
-                            state.interests = state.interests.filter(x => x !== i);
-                        } else {
-                            state.interests.push(i);
-                        }
+                        if(state.interests.includes(i)) state.interests = state.interests.filter(x => x !== i);
+                        else state.interests.push(i);
                         app.renderInterestChips();
                     };
-                    chipContainer.appendChild(btn);
+                    container.appendChild(btn);
                 });
             },
 
             startApp: () => {
-                const name = document.getElementById('student-name').value;
-                const grade = document.getElementById('student-grade').value;
-                const subject = document.getElementById('student-subject').value;
+                const nameInput = document.getElementById('student-name').value;
+                const gradeSelect = document.getElementById('student-grade').value;
+                const gradeCustom = document.getElementById('custom-grade').value;
+                const subjectSelect = document.getElementById('student-subject').value;
+                const subjectCustom = document.getElementById('custom-subject').value;
 
-                if (!name || !grade || !subject) {
+                const finalGrade = gradeSelect === 'OTHER' ? gradeCustom : gradeSelect;
+                const finalSubject = subjectSelect === 'OTHER' ? subjectCustom : subjectSelect;
+
+                if (!nameInput || !finalGrade || !finalSubject) {
+                    alert("Por favor completa todos los campos.");
                     return;
                 }
 
-                state.student = { name, grade, subject };
+                state.student = { name: nameInput, grade: finalGrade, subject: finalSubject };
+                document.getElementById('steps-menu').classList.remove('hidden');
+                state.completedSteps = { step1: false, step2: false, step3: false, step4: false };
+                app.updateStepAvailability();
                 app.navigateTo('step1');
                 app.initCharts();
                 app.renderInterestChips();
             },
 
-            navigateTo: (viewId) => {
+            updateStepAvailability: () => {
+                const links = {
+                    step1: document.getElementById('link-step1'),
+                    step2: document.getElementById('link-step2'),
+                    step3: document.getElementById('link-step3'),
+                    step4: document.getElementById('link-step4'),
+                    summary: document.getElementById('link-summary')
+                };
+                links.step1.classList.remove('disabled');
+                links.step2.classList.toggle('disabled', !state.completedSteps.step1);
+                links.step3.classList.toggle('disabled', !state.completedSteps.step2);
+                links.step4.classList.toggle('disabled', !state.completedSteps.step3);
+                links.summary.classList.toggle('disabled', !state.completedSteps.step4);
+            },
+
+            completeStep: (currentStep, nextStep) => {
+                state.completedSteps[currentStep] = true;
+                app.updateStepAvailability();
+                app.navigateTo(nextStep);
+            },
+
+            navigateTo: (id) => {
+                if (id === 'step2' && !state.completedSteps.step1) return;
+                if (id === 'step3' && !state.completedSteps.step2) return;
+                if (id === 'step4' && !state.completedSteps.step3) return;
+                if (id === 'summary' && !state.completedSteps.step4) return;
+
                 document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-                document.getElementById(`view-${viewId}`).classList.remove('hidden');
+                const targetView = document.getElementById(`view-${id}`);
+                if (targetView) targetView.classList.remove('hidden');
+
+                document.querySelectorAll('.step-link').forEach(l => l.classList.remove('active'));
+                const link = document.getElementById(`link-${id}`);
+                if(link) link.classList.add('active');
+
+                if (id === 'step2' || id === 'step3') app.initCharts();
                 window.scrollTo(0,0);
             },
 
             updateChart: (type) => {
+                if (!state.charts[type]) app.initCharts();
+
                 if (type === 'emotions') {
                     const c = parseInt(document.getElementById('rng-curiosity').value);
                     const d = parseInt(document.getElementById('rng-doubt').value);
@@ -500,158 +592,184 @@
                     document.getElementById('val-curiosity').innerText = c;
                     document.getElementById('val-doubt').innerText = d;
                     document.getElementById('val-motivation').innerText = m;
-                    state.charts.emotions.data.datasets[0].data = [c, d, m];
-                    state.charts.emotions.update();
+                    if (state.charts.emotions) {
+                        state.charts.emotions.data.datasets[0].data = [c, d, m];
+                        state.charts.emotions.update();
+                    }
                 }
                 if (type === 'ideas') {
-                    const scatterData = [];
+                    const data = [];
                     for(let i=1; i<=3; i++) {
-                        scatterData.push({
-                            x: parseInt(document.getElementById(`idea${i}-x`).value),
-                            y: parseInt(document.getElementById(`idea${i}-y`).value)
+                        data.push({
+                            x: parseInt(document.getElementById(`idea${i}-x`).value) || 0,
+                            y: parseInt(document.getElementById(`idea${i}-y`).value) || 0
                         });
                     }
-                    state.charts.ideas.data.datasets[0].data = scatterData;
-                    state.charts.ideas.update();
+                    if (state.charts.ideas) {
+                        state.charts.ideas.data.datasets[0].data = data;
+                        state.charts.ideas.update();
+                    }
                 }
             },
 
             initCharts: () => {
-                if(state.charts.emotions) return;
-
                 const isDark = document.documentElement.classList.contains('dark');
                 const textColor = isDark ? '#94a3b8' : '#64748b';
 
-                const ctxE = document.getElementById('chart-emotions').getContext('2d');
-                state.charts.emotions = new Chart(ctxE, {
+                const canvasEmo = document.getElementById('chart-emotions');
+                if (canvasEmo && !state.charts.emotions) {
+                    state.charts.emotions = new Chart(canvasEmo, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Curiosidad', 'Duda', 'Motivación'],
+                            datasets: [{ label: 'Estado', data: [5,3,6], backgroundColor: 'rgba(59,130,246,0.1)', borderColor: '#3b82f6', borderWidth: 2 }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: { r: { min: 0, max: 10, ticks: { display: false }, pointLabels: { color: textColor, font: { weight: 'bold' } } } },
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
+
+                const canvasIdeas = document.getElementById('chart-ideas');
+                if (canvasIdeas && !state.charts.ideas) {
+                    state.charts.ideas = new Chart(canvasIdeas, {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{ label: 'Ideas', data: [{x:5,y:5}, {x:3,y:7}, {x:8,y:4}], backgroundColor: '#f59e0b', pointRadius: 8 }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: { min: 0, max: 10, title: { display: true, text: 'Realismo (X)' }, ticks: { color: textColor } },
+                                y: { min: 0, max: 10, title: { display: true, text: 'Innovación (Y)' }, ticks: { color: textColor } }
+                            },
+                            plugins: { legend: { display: false } }
+                        }
+                    });
+                }
+            },
+
+            finish: () => {
+                // Marcar step4 como completado (por si se llega desde el menú sin pasar por el botón)
+                if (!state.completedSteps.step4) {
+                    state.completedSteps.step4 = true;
+                    app.updateStepAvailability();
+                }
+
+                // Llenar campos de texto
+                document.getElementById('sum-name').innerText = state.student.name;
+                document.getElementById('sum-meta').innerText = `${state.student.grade} | ${state.student.subject}`;
+                document.getElementById('sum-date').innerText = new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                document.getElementById('sum-challenge').innerText = document.getElementById('input-challenge').value || "Pendiente";
+                document.getElementById('sum-knowledge').innerText = document.getElementById('input-knowledge').value || "Pendiente";
+                document.getElementById('sum-problem').innerText = document.getElementById('input-problem').value || "...";
+                document.getElementById('sum-solution').innerText = document.getElementById('input-solution').value || "...";
+
+                const interestList = document.getElementById('sum-interests-list');
+                interestList.innerHTML = '';
+                state.interests.forEach(i => {
+                    const s = document.createElement('span');
+                    s.className = "px-2 py-0.5 bg-brand-50 text-brand-700 text-[9px] font-black rounded border border-brand-100";
+                    s.innerText = i.toUpperCase();
+                    interestList.appendChild(s);
+                });
+
+                // Valores numéricos de emociones
+                document.getElementById('sum-curiosity-val').innerText = document.getElementById('rng-curiosity').value;
+                document.getElementById('sum-doubt-val').innerText = document.getElementById('rng-doubt').value;
+                document.getElementById('sum-motivation-val').innerText = document.getElementById('rng-motivation').value;
+
+                // Lista de ideas con colores
+                const ideasList = document.getElementById('sum-ideas-list');
+                ideasList.innerHTML = '';
+                const colors = ['#3b82f6', '#ef4444', '#10b981']; // Azul, rojo, verde
+                for (let i = 1; i <= 3; i++) {
+                    const name = document.getElementById(`idea${i}-name`).value || `Idea ${i}`;
+                    const x = document.getElementById(`idea${i}-x`).value;
+                    const y = document.getElementById(`idea${i}-y`).value;
+                    const li = document.createElement('li');
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'center';
+                    li.style.gap = '4px';
+                    const colorSpan = document.createElement('span');
+                    colorSpan.style.display = 'inline-block';
+                    colorSpan.style.width = '8px';
+                    colorSpan.style.height = '8px';
+                    colorSpan.style.borderRadius = '50%';
+                    colorSpan.style.backgroundColor = colors[i-1];
+                    li.appendChild(colorSpan);
+                    li.appendChild(document.createTextNode(`${name}: (X=${x}, Y=${y})`));
+                    ideasList.appendChild(li);
+                }
+
+                // Navegar a la vista de resumen
+                app.navigateTo('summary');
+
+                // Destruir gráficos anteriores si existen
+                const emoCanvas = document.getElementById('sum-chart-emotions');
+                const ideasCanvas = document.getElementById('sum-chart-ideas');
+                let oldEmoChart = Chart.getChart(emoCanvas);
+                if (oldEmoChart) oldEmoChart.destroy();
+                let oldIdeasChart = Chart.getChart(ideasCanvas);
+                if (oldIdeasChart) oldIdeasChart.destroy();
+
+                // Obtener datos actuales
+                const emoData = [
+                    parseInt(document.getElementById('rng-curiosity').value),
+                    parseInt(document.getElementById('rng-doubt').value),
+                    parseInt(document.getElementById('rng-motivation').value)
+                ];
+                const ideaData = [];
+                for (let i = 1; i <= 3; i++) {
+                    ideaData.push({
+                        x: parseInt(document.getElementById(`idea${i}-x`).value) || 0,
+                        y: parseInt(document.getElementById(`idea${i}-y`).value) || 0
+                    });
+                }
+                const ideaNames = [
+                    document.getElementById('idea1-name').value || 'Idea 1',
+                    document.getElementById('idea2-name').value || 'Idea 2',
+                    document.getElementById('idea3-name').value || 'Idea 3'
+                ];
+
+                // Crear nuevos gráficos
+                new Chart(emoCanvas, {
                     type: 'radar',
                     data: {
                         labels: ['Curiosidad', 'Duda', 'Motivación'],
                         datasets: [{
-                            label: 'Emociones',
-                            data: [5, 3, 6],
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                            borderColor: '#3b82f6',
-                            borderWidth: 2,
-                            pointBackgroundColor: '#fff'
+                            data: emoData,
+                            borderColor: '#e11d48',
+                            backgroundColor: 'rgba(225,29,72,0.1)',
+                            borderWidth: 2
                         }]
                     },
                     options: {
-                        scales: {
-                            r: {
-                                min: 0,
-                                max: 10,
-                                ticks: { display: false },
-                                grid: { color: isDark ? '#334155' : '#e2e8f0' },
-                                pointLabels: { color: textColor }
-                            }
-                        },
+                        animation: false,
+                        scales: { r: { min: 0, max: 10, ticks: { display: false } } },
                         plugins: { legend: { display: false } }
                     }
                 });
 
-                const ctxI = document.getElementById('chart-ideas').getContext('2d');
-                state.charts.ideas = new Chart(ctxI, {
+                new Chart(ideasCanvas, {
                     type: 'scatter',
                     data: {
-                        datasets: [{
-                            label: 'Ideas',
-                            data: [{x:5,y:5}, {x:3,y:7}, {x:8,y:4}],
-                            backgroundColor: '#f59e0b',
-                            pointRadius: 8,
-                            pointHoverRadius: 10
-                        }]
+                        datasets: [
+                            { label: ideaNames[0], data: [{ x: ideaData[0].x, y: ideaData[0].y }], backgroundColor: colors[0], pointRadius: 6 },
+                            { label: ideaNames[1], data: [{ x: ideaData[1].x, y: ideaData[1].y }], backgroundColor: colors[1], pointRadius: 6 },
+                            { label: ideaNames[2], data: [{ x: ideaData[2].x, y: ideaData[2].y }], backgroundColor: colors[2], pointRadius: 6 }
+                        ]
                     },
                     options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                min: 0, max: 10,
-                                title: { display: true, text: 'Realismo', color: textColor, font: { size: 10 } },
-                                grid: { color: isDark ? '#334155' : '#e2e8f0' },
-                                ticks: { color: textColor }
-                            },
-                            y: {
-                                min: 0, max: 10,
-                                title: { display: true, text: 'Innovación', color: textColor, font: { size: 10 } },
-                                grid: { color: isDark ? '#334155' : '#e2e8f0' },
-                                ticks: { color: textColor }
-                            }
-                        },
-                        plugins: { legend: { display: false } }
-                    }
-                });
-            },
-
-            finish: () => {
-                document.getElementById('sum-name').innerText = state.student.name;
-                document.getElementById('sum-meta').innerText = `${state.student.grade} • ${state.student.subject}`;
-                document.getElementById('sum-date').innerText = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-
-                document.getElementById('sum-challenge').innerText = document.getElementById('input-challenge').value || "No especificado";
-                document.getElementById('sum-knowledge').innerText = document.getElementById('input-knowledge').value || "No especificado";
-                document.getElementById('sum-problem').innerText = document.getElementById('input-problem').value || "...";
-                document.getElementById('sum-solution').innerText = document.getElementById('input-solution').value || "...";
-
-                const sumInterestsList = document.getElementById('sum-interests-list');
-                sumInterestsList.innerHTML = '';
-                if(state.interests.length > 0) {
-                    state.interests.forEach(interest => {
-                        const span = document.createElement('span');
-                        span.className = "px-2 py-0.5 bg-white dark:bg-slate-800 border border-brand-200 dark:border-brand-800 text-brand-800 dark:text-brand-300 rounded-md font-bold";
-                        span.innerText = `# ${interest.toUpperCase()}`;
-                        sumInterestsList.appendChild(span);
-                    });
-                } else {
-                    sumInterestsList.innerText = "Ningún interés seleccionado.";
-                }
-
-                const emoData = state.charts.emotions.data.datasets[0].data;
-                document.getElementById('val-sum-curiosity').innerText = emoData[0];
-                document.getElementById('val-sum-doubt').innerText = emoData[1];
-                document.getElementById('val-sum-motivation').innerText = emoData[2];
-
-                const ideaTable = document.getElementById('table-sum-ideas');
-                ideaTable.innerHTML = '';
-                const ideaData = state.charts.ideas.data.datasets[0].data;
-                for(let i=1; i<=3; i++) {
-                    const name = document.getElementById(`idea${i}-name`).value || `Idea ${i}`;
-                    const row = `<tr class="border-b border-slate-100 dark:border-slate-800">
-                        <td class="p-1 border border-slate-200 dark:border-slate-700 font-medium">${name}</td>
-                        <td class="p-1 border border-slate-200 dark:border-slate-700 text-center font-bold">${ideaData[i-1].x}</td>
-                        <td class="p-1 border border-slate-200 dark:border-slate-700 text-center font-bold">${ideaData[i-1].y}</td>
-                    </tr>`;
-                    ideaTable.innerHTML += row;
-                }
-
-                app.navigateTo('summary');
-
-                const isDark = document.documentElement.classList.contains('dark');
-                const textColor = isDark ? '#94a3b8' : '#64748b';
-
-                const sumCtxE = document.getElementById('sum-chart-emotions').getContext('2d');
-                new Chart(sumCtxE, {
-                    type: 'radar',
-                    data: JSON.parse(JSON.stringify(state.charts.emotions.data)),
-                    options: {
-                        scales: { r: { min: 0, max: 10, ticks: { display: false }, pointLabels: { font: { size: 9 }, color: textColor } } },
-                        plugins: { legend: { display: false } },
-                        animation: false
-                    }
-                });
-
-                const sumCtxI = document.getElementById('sum-chart-ideas').getContext('2d');
-                new Chart(sumCtxI, {
-                    type: 'scatter',
-                    data: JSON.parse(JSON.stringify(state.charts.ideas.data)),
-                    options: {
-                        scales: {
-                            x: { min: 0, max: 10, title: { display: true, text: 'Realismo', font: { size: 8 }, color: textColor }, ticks: { font: { size: 8 }, color: textColor } },
-                            y: { min: 0, max: 10, title: { display: true, text: 'Innovación', font: { size: 8 }, color: textColor }, ticks: { font: { size: 8 }, color: textColor } }
-                        },
-                        plugins: { legend: { display: false } },
-                        animation: false
+                        animation: false,
+                        scales: { x: { min: 0, max: 10 }, y: { min: 0, max: 10 } },
+                        plugins: {
+                            legend: { display: true, position: 'bottom', labels: { boxWidth: 8, font: { size: 8 } } }
+                        }
                     }
                 });
             }
